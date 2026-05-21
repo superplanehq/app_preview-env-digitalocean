@@ -1,5 +1,7 @@
 # Preview Environments — GitHub + DigitalOcean
 
+[![Launch in SuperPlane](http://localhost:8000/badges/launch-in-superplane.svg)](http://localhost:8000/install?repo=github.com/superplanehq/preview-env-github-digitalocean)
+
 Spin up a live preview environment for every pull request. Comment `/start` on a PR, get a running app in ~2 minutes. Close the PR, environment auto-destroys.
 
 Built with [SuperPlane](https://superplane.com).
