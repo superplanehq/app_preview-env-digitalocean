@@ -15,13 +15,13 @@ spec:
         description: "Preview environment for PR #{{ root().data.issue.number }}"
         environment: "preview-pr-{{ root().data.issue.number }}"
         ref: "refs/pull/{{ root().data.issue.number }}/head"
-        repository: "storejs"
+        repository: "example-app"
         transientEnvironment: true
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 2040
         "y": 740
@@ -35,13 +35,13 @@ spec:
       component: "digitalocean.createDroplet"
       configuration:
         image: "ubuntu-24-04-x64"
-        name: "storejs-pr-{{ root().data.issue.number }}"
+        name: "example-app-pr-{{ root().data.issue.number }}"
         region: "nyc1"
         size: "s-1vcpu-1gb"
         sshKeys:
-          - "06:fe:74:71:7d:7b:b5:84:76:01:f9:32:f3:22:2d:14"
+          - "preview-digital-ocean-ssh-key"
         tags:
-          - "storejs"
+          - "example-app"
           - "preview"
       position:
         x: 3320
@@ -56,12 +56,12 @@ spec:
       component: "github.onPRComment"
       configuration:
         contentFilter: "^/destroy"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 120
         "y": 1920
@@ -76,13 +76,13 @@ spec:
       configuration:
         deploymentId: "{{ $['Create Deployment'].data.id }}"
         description: "Creating droplet and setting up app..."
-        repository: "storejs"
+        repository: "example-app"
         state: "in_progress"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 2680
         "y": 920
@@ -113,12 +113,12 @@ spec:
       configuration:
         body: "ℹ️ No active preview environment found for this PR."
         issueNumber: "{{ root().data.issue.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 2040
         "y": 2100
@@ -131,14 +131,14 @@ spec:
       type: "TYPE_ACTION"
       component: "github.createIssueComment"
       configuration:
-        body: "## ⚠️ Preview Environment Ready (with warnings)\n\n🔗 **http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io**\n\nHealth check failed but the environment was created. The app may still be starting up — try the link in a minute.\n\n| | |\n|---|---|\n| **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |\n| **IP** | `{{ $['Create Droplet'].data.networks.v4[0].ip_address }}` |\n\nTo destroy: `/destroy` · Auto-expires in 24h.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
+        body: "## ⚠️ Preview Environment Ready (with warnings)\n\n🔗 **http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io**\n\nHealth check failed but the environment was created. The app may still be starting up — try the link in a minute.\n\n| | |\n|---|---|\n| **Droplet** | `example-app-pr-{{ root().data.issue.number }}` |\n| **IP** | `{{ $['Create Droplet'].data.networks.v4[0].ip_address }}` |\n\nTo destroy: `/destroy` · Auto-expires in 24h.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ root().data.issue.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 5880
         "y": 920
@@ -153,13 +153,13 @@ spec:
       configuration:
         commentId: "{{ root().data.comment.id }}"
         content: "eyes"
-        repository: "storejs"
+        repository: "example-app"
         target: "issueComment"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 760
         "y": 920
@@ -186,7 +186,7 @@ spec:
           - name: "created_at"
             value: "{{ string(int(now().Unix())) }}"
           - name: "repo"
-            value: "storejs"
+            value: "example-app"
           - name: "deployment_id"
             value: "{{ string(int($['Create Deployment'].data.id)) }}"
           - name: "requested_by"
@@ -226,7 +226,7 @@ spec:
         emitMode: "oneByOne"
         matchList:
           - name: "repo"
-            value: "storejs"
+            value: "example-app"
         namespace: "preview-envs"
         resultMode: "all"
       position:
@@ -239,14 +239,14 @@ spec:
       type: "TYPE_ACTION"
       component: "github.createIssueComment"
       configuration:
-        body: "## ⏰ Preview Environment Expired\n\nThe preview environment for this PR was automatically destroyed after **24 hours** of inactivity.\n\n| | |\n|---|---|\n| **Droplet** | `storejs-pr-{{ $['Read All Envs'].data.values[0].pr_number }}` |\n| **Originally requested by** | @{{ $['Read All Envs'].data.values[0].requested_by }} |\n\nRun `/start` to spin up a new one.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
+        body: "## ⏰ Preview Environment Expired\n\nThe preview environment for this PR was automatically destroyed after **24 hours** of inactivity.\n\n| | |\n|---|---|\n| **Droplet** | `example-app-pr-{{ $['Read All Envs'].data.values[0].pr_number }}` |\n| **Originally requested by** | @{{ $['Read All Envs'].data.values[0].requested_by }} |\n\nRun `/start` to spin up a new one.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ $['Read All Envs'].data.values[0].pr_number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 3960
         "y": 3020
@@ -261,12 +261,12 @@ spec:
       configuration:
         body: "⚠️ **Preview already running!**\n\n🔗 {{ $['Check Exists'].data.values[0].url }}\n\nUse `/destroy` first, then `/start` again."
         issueNumber: "{{ root().data.issue.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 2040
         "y": 1100
@@ -342,13 +342,13 @@ spec:
       configuration:
         deploymentId: "{{ $['Read Env'].data.values[0].deployment_id }}"
         description: "Environment destroyed"
-        repository: "storejs"
+        repository: "example-app"
         state: "inactive"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 3320
         "y": 1920
@@ -377,12 +377,12 @@ spec:
       configuration:
         body: "## 🧹 Preview Environment Destroyed\n\nThe preview environment was automatically cleaned up when the PR was closed.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ root().data.pull_request.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 3320
         "y": 2560
@@ -398,13 +398,13 @@ spec:
         deploymentId: "{{ $['Create Deployment'].data.id }}"
         description: "Preview environment ready"
         environmentUrl: "http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io"
-        repository: "storejs"
+        repository: "example-app"
         state: "success"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 5880
         "y": 560
@@ -434,12 +434,12 @@ spec:
       configuration:
         body: "## 🧹 Preview Environment Destroyed\n\nThe preview environment has been cleaned up.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ root().data.issue.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 3960
         "y": 1920
@@ -483,14 +483,14 @@ spec:
       type: "TYPE_ACTION"
       component: "github.createIssueComment"
       configuration:
-        body: "## ❌ Preview Environment Failed\n\nSetup failed on `storejs-pr-{{ root().data.issue.number }}` (`{{ $['Create Droplet'].data.networks.v4[0].ip_address }}`).\n\n<details>\n<summary>Error details</summary>\n\n```\n{{ $['Setup App'].data.stderr }}\n```\n</details>\n\nDroplet will be cleaned up automatically.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
+        body: "## ❌ Preview Environment Failed\n\nSetup failed on `example-app-pr-{{ root().data.issue.number }}` (`{{ $['Create Droplet'].data.networks.v4[0].ip_address }}`).\n\n<details>\n<summary>Error details</summary>\n\n```\n{{ $['Setup App'].data.stderr }}\n```\n</details>\n\nDroplet will be cleaned up automatically.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ root().data.issue.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 5240
         "y": 1100
@@ -504,12 +504,12 @@ spec:
       component: "github.onPRComment"
       configuration:
         contentFilter: "^/start"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 120
         "y": 920
@@ -524,13 +524,13 @@ spec:
       configuration:
         deploymentId: "{{ $['Read All Envs'].data.values[0].deployment_id }}"
         description: "Environment expired (TTL)"
-        repository: "storejs"
+        repository: "example-app"
         state: "inactive"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 2680
         "y": 3020
@@ -558,14 +558,14 @@ spec:
       type: "TYPE_ACTION"
       component: "github.createIssueComment"
       configuration:
-        body: "## 🚀 Preview Environment Ready\n\n🔗 **http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io**\n\n| | |\n|---|---|\n| **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |\n| **IP** | `{{ $['Create Droplet'].data.networks.v4[0].ip_address }}` |\n| **Requested by** | @{{ root().data.comment.user.login }} |\n\nTo destroy: `/destroy` · Auto-expires in 24h.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
+        body: "## 🚀 Preview Environment Ready\n\n🔗 **http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io**\n\n| | |\n|---|---|\n| **Droplet** | `example-app-pr-{{ root().data.issue.number }}` |\n| **IP** | `{{ $['Create Droplet'].data.networks.v4[0].ip_address }}` |\n| **Requested by** | @{{ root().data.comment.user.login }} |\n\nTo destroy: `/destroy` · Auto-expires in 24h.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ root().data.issue.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 6520
         "y": 920
@@ -582,8 +582,8 @@ spec:
           authMethod: "ssh_key"
           privateKey:
             key: "private_key"
-            secret: "bender-ssh-key"
-        commands: "curl -fsSL https://raw.githubusercontent.com/puppies-inc/storejs/main/scripts/preview-setup.sh -o /tmp/setup.sh && chmod +x /tmp/setup.sh && PR_NUMBER={{ root().data.issue.number }} bash /tmp/setup.sh"
+            secret: "preview-digital-ocean-ssh-key"
+        commands: "curl -fsSL https://raw.githubusercontent.com/example/example/main/scripts/preview-setup.sh -o /tmp/setup.sh && chmod +x /tmp/setup.sh && PR_NUMBER={{ root().data.issue.number }} bash /tmp/setup.sh"
         connectionRetry:
           enabled: true
           intervalSeconds: 15
@@ -604,12 +604,12 @@ spec:
       configuration:
         actions:
           - "opened"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 120
         "y": 100
@@ -624,12 +624,12 @@ spec:
       configuration:
         body: "## 🛩️ Preview Environments\n\nUse these commands in PR comments:\n\n| Command | Description |\n|---|---|\n| `/start` | Spin up a preview environment for this PR |\n| `/destroy` | Tear down the preview environment |\n\nEnvironments are **automatically destroyed** when the PR is closed or merged.\nUnused environments expire after **24 hours**.\n\n---\n*Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0) 🛩️*"
         issueNumber: "{{ root().data.pull_request.number }}"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 760
         "y": 100
@@ -644,13 +644,13 @@ spec:
       configuration:
         deploymentId: "{{ $['Read Env (Close)'].data.values[0].deployment_id }}"
         description: "PR closed - environment destroyed"
-        repository: "storejs"
+        repository: "example-app"
         state: "inactive"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 2680
         "y": 2560
@@ -679,13 +679,13 @@ spec:
       configuration:
         deploymentId: "{{ $['Create Deployment'].data.id }}"
         description: "Setup failed"
-        repository: "storejs"
+        repository: "example-app"
         state: "failure"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 4600
         "y": 1100
@@ -700,12 +700,12 @@ spec:
       configuration:
         actions:
           - "closed"
-        repository: "storejs"
+        repository: "example-app"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 120
         "y": 2560
@@ -720,13 +720,13 @@ spec:
       configuration:
         commentId: "{{ root().data.comment.id }}"
         content: "eyes"
-        repository: "storejs"
+        repository: "example-app"
         target: "issueComment"
       metadata:
         repository:
-          id: 1165844309
-          name: "storejs"
-          url: "https://github.com/puppies-inc/storejs"
+          id: 1234567890
+          name: "example-app"
+          url: "https://github.com/example/example"
       position:
         x: 760
         "y": 1920
