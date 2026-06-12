@@ -4,7 +4,6 @@ metadata:
   id: "18c74e35-1d76-41b9-825c-b68ef966cd3f"
   name: "Preview Environments for GitHub and GC (deleted-1779999964)"
   description: "StoreJS preview"
-  isTemplate: false
 spec:
   nodes:
     - id: "read-env-destroy"
