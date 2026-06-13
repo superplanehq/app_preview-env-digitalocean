@@ -19,12 +19,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ root().data.issue.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 3960
         'y': 1920
@@ -55,13 +55,13 @@ spec:
       configuration:
         commentId: '{{ root().data.comment.id }}'
         content: eyes
-        repository: storejs
+        repository: {{ install_params.repository }}
         target: issueComment
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 760
         'y': 920
@@ -124,8 +124,8 @@ spec:
           authMethod: ssh_key
           privateKey:
             key: private_key
-            secret: STOREJS_SSH_DO
-        commands: curl -fsSL https://raw.githubusercontent.com/puppies-inc/storejs/main/scripts/preview-setup.sh -o /tmp/setup.sh && chmod +x /tmp/setup.sh && PR_NUMBER={{ root().data.issue.number }} bash /tmp/setup.sh
+            secret: {{ install_params.ssh_secret }}
+        commands: curl -fsSL {{ install_params.setup_script_url }} -o /tmp/setup.sh && chmod +x /tmp/setup.sh && PR_NUMBER={{ root().data.issue.number }} bash /tmp/setup.sh
         connectionRetry:
           enabled: true
           intervalSeconds: 15
@@ -151,7 +151,7 @@ spec:
 
           | | |
           |---|---|
-          | **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |
+          | **Droplet** | `{{ install_params.repository }}-pr-{{ root().data.issue.number }}` |
           | **IP** | `{{ $['Create Droplet'].data.networks.v4[0].ip_address }}` |
           | **Requested by** | @{{ root().data.comment.user.login }} |
 
@@ -160,12 +160,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ root().data.issue.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 6520
         'y': 920
@@ -194,13 +194,13 @@ spec:
       configuration:
         deploymentId: '{{ $[''Read All Envs''].data.values[0].deployment_id }}'
         description: Environment expired (TTL)
-        repository: storejs
+        repository: {{ install_params.repository }}
         state: inactive
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 2680
         'y': 3020
@@ -221,12 +221,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ root().data.pull_request.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 3320
         'y': 2560
@@ -248,7 +248,7 @@ spec:
 
           | | |
           |---|---|
-          | **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |
+          | **Droplet** | `{{ install_params.repository }}-pr-{{ root().data.issue.number }}` |
           | **IP** | `{{ $['Create Droplet'].data.networks.v4[0].ip_address }}` |
 
           To destroy: `/destroy` · Auto-expires in 24h.
@@ -256,12 +256,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ root().data.issue.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 5880
         'y': 920
@@ -276,13 +276,13 @@ spec:
       configuration:
         deploymentId: '{{ $[''Read Env''].data.values[0].deployment_id }}'
         description: Environment destroyed
-        repository: storejs
+        repository: {{ install_params.repository }}
         state: inactive
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 3320
         'y': 1920
@@ -311,13 +311,13 @@ spec:
       configuration:
         deploymentId: '{{ $[''Create Deployment''].data.id }}'
         description: Creating droplet and setting up app...
-        repository: storejs
+        repository: {{ install_params.repository }}
         state: in_progress
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 2680
         'y': 920
@@ -332,13 +332,13 @@ spec:
       configuration:
         commentId: '{{ root().data.comment.id }}'
         content: eyes
-        repository: storejs
+        repository: {{ install_params.repository }}
         target: issueComment
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 760
         'y': 1740
@@ -353,13 +353,13 @@ spec:
       configuration:
         deploymentId: '{{ $[''Create Deployment''].data.id }}'
         description: Setup failed
-        repository: storejs
+        repository: {{ install_params.repository }}
         state: failure
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 4600
         'y': 1100
@@ -401,12 +401,12 @@ spec:
       configuration:
         body: ℹ️ No active preview environment found for this PR.
         issueNumber: '{{ root().data.issue.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 2040
         'y': 2100
@@ -422,13 +422,13 @@ spec:
         deploymentId: '{{ $[''Create Deployment''].data.id }}'
         description: Preview environment ready
         environmentUrl: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
-        repository: storejs
+        repository: {{ install_params.repository }}
         state: success
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 5880
         'y': 560
@@ -442,12 +442,12 @@ spec:
       component: github.onPRComment
       configuration:
         contentFilter: ^/destroy
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 120
         'y': 1920
@@ -496,13 +496,13 @@ spec:
       component: digitalocean.createDroplet
       configuration:
         image: ubuntu-24-04-x64
-        name: storejs-pr-{{ root().data.issue.number }}
+        name: {{ install_params.repository }}-pr-{{ root().data.issue.number }}
         region: nyc1
         size: s-1vcpu-1gb
         sshKeys:
           - 49:91:c4:08:05:2c:19:a4:f3:cf:6d:f4:27:4a:57:68
         tags:
-          - storejs
+          - {{ install_params.repository }}
           - preview
       position:
         x: 3320
@@ -518,13 +518,13 @@ spec:
       configuration:
         deploymentId: '{{ $[''Read Env (Close)''].data.values[0].deployment_id }}'
         description: PR closed - environment destroyed
-        repository: storejs
+        repository: {{ install_params.repository }}
         state: inactive
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 2680
         'y': 2560
@@ -572,12 +572,12 @@ spec:
       configuration:
         actions:
           - closed
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 120
         'y': 2560
@@ -597,12 +597,12 @@ spec:
 
           Use `/destroy` first, then `/start` again.
         issueNumber: '{{ root().data.issue.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 2040
         'y': 1100
@@ -618,7 +618,7 @@ spec:
         body: |-
           ## ❌ Preview Environment Failed
 
-          Setup failed on `storejs-pr-{{ root().data.issue.number }}` (`{{ $['Create Droplet'].data.networks.v4[0].ip_address }}`).
+          Setup failed on `{{ install_params.repository }}-pr-{{ root().data.issue.number }}` (`{{ $['Create Droplet'].data.networks.v4[0].ip_address }}`).
 
           <details>
           <summary>Error details</summary>
@@ -633,12 +633,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ root().data.issue.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 5240
         'y': 1100
@@ -684,13 +684,13 @@ spec:
         description: 'Preview environment for PR #{{ root().data.issue.number }}'
         environment: preview-pr-{{ root().data.issue.number }}
         ref: refs/pull/{{ root().data.issue.number }}/head
-        repository: storejs
+        repository: {{ install_params.repository }}
         transientEnvironment: true
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 2040
         'y': 740
@@ -710,7 +710,7 @@ spec:
 
           | | |
           |---|---|
-          | **Droplet** | `storejs-pr-{{ $['Read All Envs'].data.values[0].pr_number }}` |
+          | **Droplet** | `{{ install_params.repository }}-pr-{{ $['Read All Envs'].data.values[0].pr_number }}` |
           | **Originally requested by** | @{{ $['Read All Envs'].data.values[0].requested_by }} |
 
           Run `/start` to spin up a new one.
@@ -718,12 +718,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ $[''Read All Envs''].data.values[0].pr_number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 3960
         'y': 3020
@@ -768,12 +768,12 @@ spec:
       component: github.onPRComment
       configuration:
         contentFilter: ^/start
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 120
         'y': 920
@@ -788,12 +788,12 @@ spec:
       configuration:
         actions:
           - opened
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 120
         'y': 100
@@ -822,12 +822,12 @@ spec:
           ---
           *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*
         issueNumber: '{{ root().data.pull_request.number }}'
-        repository: storejs
+        repository: {{ install_params.repository }}
       metadata:
         repository:
           id: 1165844309
-          name: storejs
-          url: https://github.com/puppies-inc/storejs
+          name: {{ install_params.repository }}
+          url: https://github.com/{{ install_params.github_org }}/{{ install_params.repository }}
       position:
         x: 760
         'y': 100

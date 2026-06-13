@@ -1,0 +1,36 @@
+{
+  "install_params": [
+    {
+      "name": "repository",
+      "label": "Repository Name",
+      "type": "string",
+      "placeholder": "my-repo",
+      "description": "The GitHub repository name to watch for pull requests",
+      "required": true
+    },
+    {
+      "name": "github_org",
+      "label": "GitHub Organization",
+      "type": "string",
+      "placeholder": "my-org",
+      "description": "The GitHub organization or user that owns the repository",
+      "required": true
+    },
+    {
+      "name": "setup_script_url",
+      "label": "Setup Script URL",
+      "type": "string",
+      "placeholder": "https://raw.githubusercontent.com/my-org/my-repo/main/scripts/preview-setup.sh",
+      "description": "Full URL to the script that sets up the preview environment on the droplet",
+      "required": true
+    },
+    {
+      "name": "ssh_secret",
+      "label": "SSH Key Secret",
+      "type": "string",
+      "default": "preview-digital-ocean-ssh-key",
+      "description": "Name of the SuperPlane secret containing the SSH private key for DigitalOcean",
+      "required": true
+    }
+  ]
+}
