@@ -963,9 +963,3 @@ spec:
     - sourceId: console-destroy
       targetId: read-env-destroy
       channel: default
-  changeManagement:
-    enabled: false
-    approvals:
-      - type: TYPE_ANYONE
-        userId: ''
-        roleName: ''
