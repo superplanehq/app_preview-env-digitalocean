@@ -3,9 +3,11 @@
     {
       "name": "repository",
       "label": "GitHub Repository",
-      "type": "string",
-      "placeholder": "my-app",
-      "description": "Repository name to watch for pull requests (must match a repo connected via your GitHub integration)",
+      "type": "integration-resource",
+      "integration": "github",
+      "resourceType": "repository",
+      "useNameAsValue": true,
+      "description": "Repository to watch for pull requests",
       "required": true
     },
     {
