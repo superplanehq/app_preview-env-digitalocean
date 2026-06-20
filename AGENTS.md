@@ -50,6 +50,7 @@ These values were set during install and are substituted throughout the canvas:
 |-----------|----------------|
 | `repository` | All GitHub nodes (triggers, comments, deployments, reactions) |
 | `ssh_secret` | Setup App node SSH authentication |
+| `ssh_key` | Create Droplet node — SSH key injected into new droplets |
 | `region` | Create Droplet node |
 | `size` | Create Droplet node |
 | `image` | Create Droplet node |
@@ -101,7 +102,7 @@ The `setup-app` SSH node runs `scripts/preview-setup.sh`. Add your build steps t
 The most common failure point is the **SSH setup step** (`setup-app` node). When debugging a failed run, start here.
 
 **SSH authentication fails:**
-The secret referenced in the SSH node doesn't exist, has the wrong key name, or contains the wrong private key. Check that the secret selected during install exists in the org and the key name is `private_key`. Also verify the corresponding public key is registered on DigitalOcean and its fingerprint matches the one on the `create-droplet` node.
+The secret referenced in the SSH node doesn't exist, has the wrong key name, or contains the wrong private key. Check that the secret selected during install exists in the org and the key name is `private_key`. Also verify the corresponding public key is registered on DigitalOcean. The SSH key selected during install must match the private key in the secret.
 
 **Setup script fails:**
 The default `scripts/preview-setup.sh` is written for a Node.js app. It will fail for any other stack. Users must edit this script in the **Files** tab to match their application — install the right runtime, build their app, configure their web server, and start their services. Check the SSH node's `stderr` output for the actual error.
