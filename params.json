@@ -3,9 +3,10 @@
     {
       "name": "repository",
       "label": "GitHub Repository",
-      "type": "string",
-      "placeholder": "my-app",
-      "description": "Repository name to watch for pull requests (must be connected via GitHub integration)",
+      "type": "integration-resource",
+      "integration": "github",
+      "resourceType": "repository",
+      "description": "Repository to watch for pull requests",
       "required": true
     },
     {
@@ -18,8 +19,9 @@
     {
       "name": "region",
       "label": "Droplet Region",
-      "type": "string",
-      "placeholder": "nyc1",
+      "type": "integration-resource",
+      "integration": "digitalocean",
+      "resourceType": "region",
       "default": "nyc1",
       "description": "DigitalOcean region for preview droplets",
       "required": false
@@ -27,8 +29,9 @@
     {
       "name": "size",
       "label": "Droplet Size",
-      "type": "string",
-      "placeholder": "s-1vcpu-1gb",
+      "type": "integration-resource",
+      "integration": "digitalocean",
+      "resourceType": "size",
       "default": "s-1vcpu-1gb",
       "description": "DigitalOcean droplet size",
       "required": false
@@ -36,8 +39,9 @@
     {
       "name": "image",
       "label": "Droplet Image",
-      "type": "string",
-      "placeholder": "ubuntu-24-04-x64",
+      "type": "integration-resource",
+      "integration": "digitalocean",
+      "resourceType": "image",
       "default": "ubuntu-24-04-x64",
       "description": "DigitalOcean droplet image",
       "required": false
