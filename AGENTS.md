@@ -1,0 +1,114 @@
+# Agent Guidelines — Preview Environments on DigitalOcean
+
+This file provides context for AI agents (SuperPlane built-in agent, Cursor, or any external agent) operating on this canvas.
+
+## What this app does
+
+This app manages the full lifecycle of ephemeral preview environments for GitHub pull requests on DigitalOcean:
+
+- **Provision** — create a droplet, deploy the app via SSH, run a health check, post the preview URL
+- **Teardown** — delete the droplet and clean up memory on `/destroy` command or PR close
+- **TTL** — a scheduled check reaps environments older than 24 hours
+
+## Flows
+
+### Deploy (`/start` command)
+```
+/start comment → Ack Deploy → Check Exists → Create Droplet → Create Deployment
+  → Status: In Progress → Setup App (SSH) → Health Check
+  → (pass) Save Environment → Post Preview URL → Status: Success
+  → (fail) Setup Failed comment → Cleanup Failed Droplet → Status: Failure
+```
+
+If an environment already exists for the PR, it posts "Already Running" and stops.
+
+### Destroy (`/destroy` command)
+```
+/destroy comment → Ack Destroy → Read Env → Delete Droplet
+  → Destroyed Comment → Cleanup Memory → Status: Inactive
+```
+
+If no environment exists, it posts "No Env Found."
+
+### PR Closed
+```
+PR Closed → Read Env (Close) → Delete Droplet (Close)
+  → Destroyed Comment (Close) → Cleanup Memory (Close) → Status: Inactive (Close)
+```
+
+### TTL Check (scheduled)
+```
+TTL Check (schedule) → Read All Envs → Older than 24h?
+  → (yes) TTL Delete → TTL Expired Comment → TTL Cleanup → Status: Inactive (TTL)
+```
+
+## Install parameters
+
+These values were set during install and are substituted throughout the canvas:
+
+| Parameter | Where it's used |
+|-----------|----------------|
+| `repository` | All GitHub nodes (triggers, comments, deployments, reactions) |
+| `ssh_secret` | Setup App node SSH authentication |
+| `region` | Create Droplet node |
+| `size` | Create Droplet node |
+| `image` | Create Droplet node |
+
+## Memory
+
+The app uses one namespace: `preview-envs`
+
+Each entry stores:
+- `pr_number` — the PR number (match key)
+- `droplet_id` — DigitalOcean droplet ID
+- `droplet_ip` — droplet public IP
+- `app_name` — the repository name
+- `created_at` — when the environment was created
+
+## What's safe to change
+
+- **`scripts/preview-setup.sh`** — the main customization point. Edit this to match your app's runtime, build steps, and service configuration. It receives `PR_NUMBER` and `REPO_URL` as environment variables.
+- **Comment text** — any of the `github.createIssueComment` nodes (welcome, ready, destroyed, failed, etc.)
+- **TTL duration** — the `check-ttl` (Older than 24h?) node's expression. Change `24` to your preferred hours.
+- **Droplet tags** — tags on the `create-droplet` node
+- **Health check URL** — the `http-health-check` node's URL path
+
+## What not to change (without understanding the flow)
+
+- **Memory namespace and match keys** — the deploy, destroy, close, and TTL flows all read/write `preview-envs` keyed on `pr_number`. Changing the namespace or keys breaks cross-flow coordination.
+- **Edge wiring between core nodes** — the sequence matters. For example, `Save Environment` must run after `Create Droplet` because it reads the droplet ID from the output.
+- **Integration references** — integration IDs are wired at install time. Don't change them unless re-connecting an integration.
+
+## Common tasks
+
+**Change the droplet size or region:**
+Update the `create-droplet` node's `size` or `region` field.
+
+**Change the TTL:**
+Edit the `check-ttl` node expression. The default checks if `createdAt` is older than 24 hours.
+
+**Add a Slack notification:**
+Add a `slack.sendMessage` node after `Post Preview URL` or `Destroyed Comment`. Connect it to the same edge.
+
+**Change the welcome comment:**
+Edit the `welcome-comment` node's `body` field.
+
+**Add a build step before the health check:**
+The `setup-app` SSH node runs `scripts/preview-setup.sh`. Add your build steps to that script rather than adding more SSH nodes.
+
+## Common issues
+
+**Setup fails with "connection refused" or "i/o timeout":**
+The droplet isn't ready for SSH yet. The SSH node has connection retry (10 retries, 15s interval). If that's not enough, increase `retries` or `intervalSeconds` on the `setup-app` node.
+
+**Health check returns 404:**
+The setup script's health check URL doesn't match your app's routes. Edit the health check path in `scripts/preview-setup.sh` and the `http-health-check` node URL.
+
+**Environment not cleaned up on PR close:**
+The `pr-closed` trigger must match the right repository. Check that the trigger's `repository` field matches your repo name.
+
+**TTL not firing:**
+The `ttl-schedule` node runs on a cron schedule. Verify it's not paused and the schedule expression is correct.
+
+**"Already Running" when the environment is actually gone:**
+The memory entry still exists but the droplet was deleted externally (e.g., from the DO dashboard). Manually delete the memory entry from the Memory tab.
