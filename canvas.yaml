@@ -129,7 +129,7 @@ spec:
 
         |---|---|
 
-        | **Droplet** | `storejs-pr-{{ $[''Read All Envs''].data.values[0].pr_number }}` |
+        | **Droplet** | `{{ install_params.repository }}-pr-{{ $[''Read All Envs''].data.values[0].pr_number }}` |
 
         | **Originally requested by** | @{{ $[''Read All Envs''].data.values[0].requested_by }} |
 
@@ -142,15 +142,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ $[''Read All Envs''].data.values[0].pr_number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: ttl-expired-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: TTL Expired Comment
     position:
       x: 3960
@@ -185,7 +185,7 @@ spec:
       - name: created_at
         value: '{{ string(int(now().Unix())) }}'
       - name: repo
-        value: storejs
+        value: {{ install_params.repository }}
       - name: deployment_id
         value: '{{ string(int($[''Create Deployment''].data.id)) }}'
       - name: requested_by
@@ -243,15 +243,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ root().data.pull_request.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: welcome-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Welcome Comment
     position:
       x: 760
@@ -287,7 +287,7 @@ spec:
     configuration:
       commentId: '{{ root().data.comment.id }}'
       content: eyes
-      repository: storejs
+      repository: {{ install_params.repository }}
       target: issueComment
     id: ack-deploy
     integration:
@@ -295,8 +295,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Ack Deploy
     position:
       x: 760
@@ -312,15 +312,15 @@ spec:
 
         Use `/destroy` first, then `/start` again.'
       issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: already-exists
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Already Running
     position:
       x: 2040
@@ -345,15 +345,15 @@ spec:
   - component: github.onPRComment
     configuration:
       contentFilter: ^/destroy
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: destroy-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: /destroy
     position:
       x: 120
@@ -377,7 +377,7 @@ spec:
     configuration:
       commentId: '{{ root().data.comment.id }}'
       content: eyes
-      repository: storejs
+      repository: {{ install_params.repository }}
       target: issueComment
     id: ack-destroy
     integration:
@@ -385,8 +385,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Ack Destroy
     position:
       x: 760
@@ -404,7 +404,7 @@ spec:
 
         |---|---|
 
-        | **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |
+        | **Droplet** | `{{ install_params.repository }}-pr-{{ root().data.issue.number }}` |
 
         | **IP** | `{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}` |
 
@@ -419,15 +419,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: comment-ready
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Post Preview URL
     position:
       x: 6520
@@ -438,7 +438,7 @@ spec:
       body: '## ❌ Preview Environment Failed
 
 
-        Setup failed on `storejs-pr-{{ root().data.issue.number }}` (`{{ $[''Create Droplet''].data.networks.v4[0].ip_address
+        Setup failed on `{{ install_params.repository }}-pr-{{ root().data.issue.number }}` (`{{ $[''Create Droplet''].data.networks.v4[0].ip_address
         }}`).
 
 
@@ -464,15 +464,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: setup-failed-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Setup Failed
     position:
       x: 5240
@@ -492,7 +492,7 @@ spec:
       emitMode: oneByOne
       matchList:
       - name: repo
-        value: storejs
+        value: {{ install_params.repository }}
       namespace: preview-envs
       resultMode: all
     id: read-all-envs
@@ -505,15 +505,15 @@ spec:
     configuration:
       actions:
       - closed
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: pr-closed
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: PR Closed
     position:
       x: 120
@@ -555,7 +555,7 @@ spec:
       deploymentId: '{{ $[''Create Deployment''].data.id }}'
       description: Preview environment ready
       environmentUrl: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
-      repository: storejs
+      repository: {{ install_params.repository }}
       state: success
     id: deploy-status-success
     integration:
@@ -563,8 +563,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: 'Status: Success'
     position:
       x: 5880
@@ -574,7 +574,7 @@ spec:
     configuration:
       deploymentId: '{{ $[''Read Env''].data.values[0].deployment_id }}'
       description: Environment destroyed
-      repository: storejs
+      repository: {{ install_params.repository }}
       state: inactive
     id: deploy-status-inactive-cmd
     integration:
@@ -582,8 +582,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: 'Status: Inactive'
     position:
       x: 3320
@@ -595,7 +595,7 @@ spec:
         authMethod: ssh_key
         privateKey:
           key: private_key
-          secret: STOREJS_SSH_DO
+          secret: {{ install_params.ssh_secret }}
       commandFile: scripts/preview-setup.sh
       commandSource: file
       connectionRetry:
@@ -634,15 +634,15 @@ spec:
     configuration:
       actions:
       - opened
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: pr-opened
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: PR Opened
     position:
       x: 120
@@ -661,15 +661,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: comment-destroyed-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Destroyed Comment
     position:
       x: 3960
@@ -679,7 +679,7 @@ spec:
     configuration:
       deploymentId: '{{ $[''Read Env (Close)''].data.values[0].deployment_id }}'
       description: PR closed - environment destroyed
-      repository: storejs
+      repository: {{ install_params.repository }}
       state: inactive
     id: deploy-status-inactive-close
     integration:
@@ -687,8 +687,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: 'Status: Inactive (Close)'
     position:
       x: 2680
@@ -699,7 +699,7 @@ spec:
       description: 'Preview environment for PR #{{ root().data.issue.number }}'
       environment: preview-pr-{{ root().data.issue.number }}
       ref: refs/pull/{{ root().data.issue.number }}/head
-      repository: storejs
+      repository: {{ install_params.repository }}
       transientEnvironment: true
     id: create-deployment
     integration:
@@ -707,8 +707,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Create Deployment
     position:
       x: 2040
@@ -727,15 +727,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ root().data.pull_request.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: comment-destroyed-close
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Destroyed Comment (Close)
     position:
       x: 3320
@@ -784,7 +784,7 @@ spec:
     configuration:
       deploymentId: '{{ $[''Create Deployment''].data.id }}'
       description: Setup failed
-      repository: storejs
+      repository: {{ install_params.repository }}
       state: failure
     id: deploy-status-failure
     integration:
@@ -792,8 +792,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: 'Status: Failure'
     position:
       x: 4600
@@ -826,7 +826,7 @@ spec:
 
         |---|---|
 
-        | **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |
+        | **Droplet** | `{{ install_params.repository }}-pr-{{ root().data.issue.number }}` |
 
         | **IP** | `{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}` |
 
@@ -839,15 +839,15 @@ spec:
         *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
         🛩️*'
       issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: health-failed-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: Health Check Warning
     position:
       x: 5880
@@ -871,7 +871,7 @@ spec:
     configuration:
       deploymentId: '{{ $[''Create Deployment''].data.id }}'
       description: Creating droplet and setting up app...
-      repository: storejs
+      repository: {{ install_params.repository }}
       state: in_progress
     id: deploy-status-progress
     integration:
@@ -879,8 +879,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: 'Status: In Progress'
     position:
       x: 2680
@@ -890,15 +890,15 @@ spec:
     configuration:
       body: ℹ️ No active preview environment found for this PR.
       issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: no-env-destroy
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: No Env Found
     position:
       x: 2040
@@ -908,7 +908,7 @@ spec:
     configuration:
       deploymentId: '{{ $[''Read All Envs''].data.values[0].deployment_id }}'
       description: Environment expired (TTL)
-      repository: storejs
+      repository: {{ install_params.repository }}
       state: inactive
     id: ttl-deploy-status-inactive
     integration:
@@ -916,8 +916,8 @@ spec:
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: 'Status: Inactive (TTL)'
     position:
       x: 2680
@@ -926,15 +926,15 @@ spec:
   - component: github.onPRComment
     configuration:
       contentFilter: ^/start
-      repository: storejs
+      repository: {{ install_params.repository }}
     id: deploy-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
       repository:
         id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
+        name: {{ install_params.repository }}
+        url: ""
     name: /start
     position:
       x: 120
@@ -942,14 +942,14 @@ spec:
     type: TYPE_TRIGGER
   - component: digitalocean.createDroplet
     configuration:
-      image: ubuntu-24-04-x64
-      name: storejs-pr-{{ root().data.issue.number }}
-      region: nyc1
-      size: s-1vcpu-1gb
+      image: {{ install_params.image }}
+      name: {{ install_params.repository }}-pr-{{ root().data.issue.number }}
+      region: {{ install_params.region }}
+      size: {{ install_params.size }}
       sshKeys:
       - 49:91:c4:08:05:2c:19:a4:f3:cf:6d:f4:27:4a:57:68
       tags:
-      - storejs
+      - {{ install_params.repository }}
       - preview
     id: create-droplet
     integration:
