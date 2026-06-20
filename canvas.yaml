@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Canvas
 metadata:
   description: Spin up preview environments on DigitalOcean for GitHub pull requests
-  name: Preview Environments
+  name: Preview Environments on DigitalOcean
 spec:
   edges:
   - channel: default
