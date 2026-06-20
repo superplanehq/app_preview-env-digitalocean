@@ -135,6 +135,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Destroyed Comment
     position:
       x: 3960
@@ -147,6 +152,9 @@ spec:
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
     isCollapsed: false
+    metadata:
+      dropletId: 0
+      dropletName: '{{ int(float(previous().data.values[0].droplet_id)) }}'
     name: Delete Droplet (Close)
     position:
       x: 1400
@@ -162,6 +170,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Ack Deploy
     position:
       x: 760
@@ -174,6 +187,9 @@ spec:
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
     isCollapsed: false
+    metadata:
+      dropletId: 0
+      dropletName: '{{ int(float(previous().data.values[0].droplet_id)) }}'
     name: Delete Droplet
     position:
       x: 2040
@@ -262,6 +278,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Post Preview URL
     position:
       x: 6520
@@ -290,6 +311,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: 'Status: Inactive (TTL)'
     position:
       x: 2680
@@ -312,6 +338,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Destroyed Comment (Close)
     position:
       x: 3320
@@ -349,6 +380,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Health Check Warning
     position:
       x: 5880
@@ -364,6 +400,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: 'Status: Inactive'
     position:
       x: 3320
@@ -392,6 +433,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: 'Status: In Progress'
     position:
       x: 2680
@@ -407,6 +453,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Ack Destroy
     position:
       x: 760
@@ -422,6 +473,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: 'Status: Failure'
     position:
       x: 4600
@@ -434,6 +490,9 @@ spec:
       type: hours
     id: ttl-schedule
     isCollapsed: false
+    metadata:
+      nextTrigger: '2026-05-24T18:00:00Z'
+      referenceTime: null
     name: TTL Check
     position:
       x: 120
@@ -458,6 +517,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: No Env Found
     position:
       x: 2040
@@ -474,6 +538,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: 'Status: Success'
     position:
       x: 5880
@@ -487,6 +556,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: /destroy
     position:
       x: 120
@@ -556,6 +630,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: 'Status: Inactive (Close)'
     position:
       x: 2680
@@ -601,6 +680,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: PR Closed
     position:
       x: 120
@@ -621,6 +705,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Already Running
     position:
       x: 2040
@@ -661,6 +750,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Setup Failed
     position:
       x: 5240
@@ -705,6 +799,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Create Deployment
     position:
       x: 2040
@@ -739,6 +838,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: TTL Expired Comment
     position:
       x: 3960
@@ -765,6 +869,9 @@ spec:
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
     isCollapsed: false
+    metadata:
+      dropletId: 0
+      dropletName: '{{ int(float($[''Create Droplet''].data.id)) }}'
     name: Cleanup Failed Droplet
     position:
       x: 5880
@@ -778,6 +885,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: /start
     position:
       x: 120
@@ -792,6 +904,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: PR Opened
     position:
       x: 120
@@ -828,6 +945,11 @@ spec:
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
     isCollapsed: false
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
     name: Welcome Comment
     position:
       x: 760
@@ -840,6 +962,9 @@ spec:
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
     isCollapsed: false
+    metadata:
+      dropletId: 0
+      dropletName: '{{ int(float($[''Read All Envs''].data.values[0].droplet_id)) }}'
     name: TTL Delete
     position:
       x: 2040
