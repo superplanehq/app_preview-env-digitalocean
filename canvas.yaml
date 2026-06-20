@@ -1,9 +1,8 @@
 apiVersion: v1
 kind: Canvas
 metadata:
-  description: StoreJS preview
-  id: 18c74e35-1d76-41b9-825c-b68ef966cd3f
-  name: Preview Environments for GitHub and GC (deleted-1779999964)
+  description: Spin up preview environments on DigitalOcean for GitHub pull requests
+  name: Preview Environments
 spec:
   edges:
   - channel: default
