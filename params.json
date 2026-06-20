@@ -1,0 +1,46 @@
+{
+  "install_params": [
+    {
+      "name": "repository",
+      "label": "GitHub Repository",
+      "type": "string",
+      "placeholder": "my-app",
+      "description": "Repository name to watch for pull requests (must be connected via GitHub integration)",
+      "required": true
+    },
+    {
+      "name": "ssh_secret",
+      "label": "SSH Secret",
+      "type": "secret_picker",
+      "description": "Secret containing the SSH private key for accessing droplets. The key name should be 'private_key'.",
+      "required": true
+    },
+    {
+      "name": "region",
+      "label": "Droplet Region",
+      "type": "string",
+      "placeholder": "nyc1",
+      "default": "nyc1",
+      "description": "DigitalOcean region for preview droplets",
+      "required": false
+    },
+    {
+      "name": "size",
+      "label": "Droplet Size",
+      "type": "string",
+      "placeholder": "s-1vcpu-1gb",
+      "default": "s-1vcpu-1gb",
+      "description": "DigitalOcean droplet size",
+      "required": false
+    },
+    {
+      "name": "image",
+      "label": "Droplet Image",
+      "type": "string",
+      "placeholder": "ubuntu-24-04-x64",
+      "default": "ubuntu-24-04-x64",
+      "description": "DigitalOcean droplet image",
+      "required": false
+    }
+  ]
+}
