@@ -947,7 +947,7 @@ spec:
       region: {{ install_params.region }}
       size: {{ install_params.size }}
       sshKeys:
-      - 49:91:c4:08:05:2c:19:a4:f3:cf:6d:f4:27:4a:57:68
+      - {{ install_params.ssh_key }}
       tags:
       - {{ install_params.repository }}
       - preview
