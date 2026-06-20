@@ -98,17 +98,16 @@ The `setup-app` SSH node runs `scripts/preview-setup.sh`. Add your build steps t
 
 ## Common issues
 
-**Setup fails with "connection refused" or "i/o timeout":**
-The droplet isn't ready for SSH yet. The SSH node has connection retry (10 retries, 15s interval). If that's not enough, increase `retries` or `intervalSeconds` on the `setup-app` node.
+The most common failure point is the **SSH setup step** (`setup-app` node). When debugging a failed run, start here.
 
-**Health check returns 404:**
-The setup script's health check URL doesn't match your app's routes. Edit the health check path in `scripts/preview-setup.sh` and the `http-health-check` node URL.
+**SSH authentication fails:**
+The secret referenced in the SSH node doesn't exist, has the wrong key name, or contains the wrong private key. Check that the secret selected during install exists in the org and the key name is `private_key`. Also verify the corresponding public key is registered on DigitalOcean and its fingerprint matches the one on the `create-droplet` node.
 
-**Environment not cleaned up on PR close:**
-The `pr-closed` trigger must match the right repository. Check that the trigger's `repository` field matches your repo name.
+**Setup script fails:**
+The default `scripts/preview-setup.sh` is written for a Node.js app. It will fail for any other stack. Users must edit this script in the **Files** tab to match their application — install the right runtime, build their app, configure their web server, and start their services. Check the SSH node's `stderr` output for the actual error.
 
-**TTL not firing:**
-The `ttl-schedule` node runs on a cron schedule. Verify it's not paused and the schedule expression is correct.
+**Health check returns non-200:**
+The setup script includes a health check that curls `localhost:3000/`. If the app listens on a different port or path, update both the health check in `scripts/preview-setup.sh` and the `http-health-check` node URL.
 
 **"Already Running" when the environment is actually gone:**
-The memory entry still exists but the droplet was deleted externally (e.g., from the DO dashboard). Manually delete the memory entry from the Memory tab.
+The memory entry still exists but the droplet was deleted outside of SuperPlane (e.g., from the DigitalOcean dashboard). Delete the stale entry from the **Memory** tab to allow a fresh deploy.
