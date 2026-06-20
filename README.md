@@ -19,12 +19,12 @@ GitHub Deployments are created for each environment, so you get the native "View
 - A [SuperPlane](https://superplane.com) account with GitHub and DigitalOcean integrations connected
 - An SSH key registered on DigitalOcean
 - The corresponding private key stored as a SuperPlane secret (key name: `private_key`)
+- The same SSH key selected during install for the Create Droplet node
 
 ## Install
 
 Click **Launch in SuperPlane** at the top of this page. The wizard will walk you through connecting integrations, selecting your repository, picking an SSH secret, and choosing droplet settings.
 
-After install, update the SSH key fingerprint on the **Create Droplet** node to match your DigitalOcean SSH key.
 
 ## Customizing the setup script
 
