@@ -134,6 +134,7 @@ spec:
     id: comment-destroyed-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Destroyed Comment
     position:
       x: 3960
@@ -145,6 +146,7 @@ spec:
     id: delete-droplet-close
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    isCollapsed: false
     name: Delete Droplet (Close)
     position:
       x: 1400
@@ -159,6 +161,7 @@ spec:
     id: ack-deploy
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Ack Deploy
     position:
       x: 760
@@ -170,6 +173,7 @@ spec:
     id: delete-droplet-cmd
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    isCollapsed: false
     name: Delete Droplet
     position:
       x: 2040
@@ -183,6 +187,7 @@ spec:
       namespace: preview-envs
       resultMode: latest
     id: check-exists
+    isCollapsed: false
     name: Check Exists
     position:
       x: 1400
@@ -196,6 +201,7 @@ spec:
       namespace: preview-envs
       resultMode: latest
     id: read-env-destroy
+    isCollapsed: false
     name: Read Env
     position:
       x: 1400
@@ -219,6 +225,7 @@ spec:
       timeout: 300
       username: root
     id: setup-app
+    isCollapsed: false
     name: Setup App
     position:
       x: 3960
@@ -254,6 +261,7 @@ spec:
     id: comment-ready
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Post Preview URL
     position:
       x: 6520
@@ -266,6 +274,7 @@ spec:
         value: '{{ $[''Read All Envs''].data.values[0].pr_number }}'
       namespace: preview-envs
     id: ttl-cleanup
+    isCollapsed: false
     name: TTL Cleanup
     position:
       x: 3320
@@ -280,6 +289,7 @@ spec:
     id: ttl-deploy-status-inactive
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: 'Status: Inactive (TTL)'
     position:
       x: 2680
@@ -301,6 +311,7 @@ spec:
     id: comment-destroyed-close
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Destroyed Comment (Close)
     position:
       x: 3320
@@ -337,6 +348,7 @@ spec:
     id: health-failed-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Health Check Warning
     position:
       x: 5880
@@ -351,6 +363,7 @@ spec:
     id: deploy-status-inactive-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: 'Status: Inactive'
     position:
       x: 3320
@@ -363,6 +376,7 @@ spec:
         value: '{{ root().data.pull_request.number }}'
       namespace: preview-envs
     id: cleanup-close
+    isCollapsed: false
     name: Cleanup Memory (Close)
     position:
       x: 2040
@@ -377,6 +391,7 @@ spec:
     id: deploy-status-progress
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: 'Status: In Progress'
     position:
       x: 2680
@@ -391,6 +406,7 @@ spec:
     id: ack-destroy
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Ack Destroy
     position:
       x: 760
@@ -405,6 +421,7 @@ spec:
     id: deploy-status-failure
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: 'Status: Failure'
     position:
       x: 4600
@@ -416,6 +433,7 @@ spec:
       timezone: '0'
       type: hours
     id: ttl-schedule
+    isCollapsed: false
     name: TTL Check
     position:
       x: 120
@@ -425,6 +443,7 @@ spec:
     configuration:
       expression: '{{ int(now().Unix()) - int(previous().data.values[0].created_at) > 86400 }}'
     id: check-ttl
+    isCollapsed: false
     name: Older than 24h?
     position:
       x: 1400
@@ -438,6 +457,7 @@ spec:
     id: no-env-destroy
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: No Env Found
     position:
       x: 2040
@@ -453,6 +473,7 @@ spec:
     id: deploy-status-success
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: 'Status: Success'
     position:
       x: 5880
@@ -465,6 +486,7 @@ spec:
     id: destroy-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: /destroy
     position:
       x: 120
@@ -498,6 +520,7 @@ spec:
       - name: pr_url
         value: '{{ root().data.issue.html_url }}'
     id: save-env
+    isCollapsed: false
     name: Save Environment
     position:
       x: 4600
@@ -517,6 +540,7 @@ spec:
     id: create-droplet
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    isCollapsed: false
     name: Create Droplet
     position:
       x: 3320
@@ -531,6 +555,7 @@ spec:
     id: deploy-status-inactive-close
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: 'Status: Inactive (Close)'
     position:
       x: 2680
@@ -544,6 +569,7 @@ spec:
       namespace: preview-envs
       resultMode: latest
     id: read-env-close
+    isCollapsed: false
     name: Read Env (Close)
     position:
       x: 760
@@ -560,6 +586,7 @@ spec:
           issue:
             number: '{{ parameters["issue_number"] }}'
     id: console-destroy
+    isCollapsed: false
     name: 'Console: Destroy'
     position:
       x: 760
@@ -573,6 +600,7 @@ spec:
     id: pr-closed
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: PR Closed
     position:
       x: 120
@@ -592,6 +620,7 @@ spec:
     id: already-exists
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Already Running
     position:
       x: 2040
@@ -631,6 +660,7 @@ spec:
     id: setup-failed-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Setup Failed
     position:
       x: 5240
@@ -643,6 +673,7 @@ spec:
         value: '{{ root().data.issue.number }}'
       namespace: preview-envs
     id: cleanup-cmd
+    isCollapsed: false
     name: Cleanup Memory
     position:
       x: 2680
@@ -657,6 +688,7 @@ spec:
       namespace: preview-envs
       resultMode: all
     id: read-all-envs
+    isCollapsed: false
     name: Read All Envs
     position:
       x: 760
@@ -672,6 +704,7 @@ spec:
     id: create-deployment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Create Deployment
     position:
       x: 2040
@@ -705,6 +738,7 @@ spec:
     id: ttl-expired-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: TTL Expired Comment
     position:
       x: 3960
@@ -718,6 +752,7 @@ spec:
       timeoutSeconds: 5
       url: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
     id: http-health-check
+    isCollapsed: false
     name: Health Check
     position:
       x: 5240
@@ -729,6 +764,7 @@ spec:
     id: cleanup-failed-droplet
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    isCollapsed: false
     name: Cleanup Failed Droplet
     position:
       x: 5880
@@ -741,6 +777,7 @@ spec:
     id: deploy-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: /start
     position:
       x: 120
@@ -754,6 +791,7 @@ spec:
     id: pr-opened
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: PR Opened
     position:
       x: 120
@@ -789,6 +827,7 @@ spec:
     id: welcome-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
+    isCollapsed: false
     name: Welcome Comment
     position:
       x: 760
@@ -800,6 +839,7 @@ spec:
     id: ttl-delete-droplet
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    isCollapsed: false
     name: TTL Delete
     position:
       x: 2040
