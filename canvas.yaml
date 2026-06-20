@@ -117,40 +117,12 @@ spec:
     sourceId: console-destroy
     targetId: read-env-destroy
   nodes:
-  - component: github.createIssueComment
-    configuration:
-      body: '## 🧹 Preview Environment Destroyed
-
-
-        The preview environment has been cleaned up.
-
-
-        ---
-
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
-      issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
-    id: comment-destroyed-cmd
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: Destroyed Comment
-    position:
-      x: 3960
-      y: 1920
-    type: TYPE_ACTION
   - component: digitalocean.deleteDroplet
     configuration:
       droplet: '{{ int(float(previous().data.values[0].droplet_id)) }}'
     id: delete-droplet-close
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
-    isCollapsed: false
     metadata:
       dropletId: 0
       dropletName: '{{ int(float(previous().data.values[0].droplet_id)) }}'
@@ -158,6 +130,81 @@ spec:
     position:
       x: 1400
       y: 2560
+    type: TYPE_ACTION
+  - component: digitalocean.deleteDroplet
+    configuration:
+      droplet: '{{ int(float(previous().data.values[0].droplet_id)) }}'
+    id: delete-droplet-cmd
+    integration:
+      id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    metadata:
+      dropletId: 0
+      dropletName: '{{ int(float(previous().data.values[0].droplet_id)) }}'
+    name: Delete Droplet
+    position:
+      x: 2040
+      y: 1740
+    type: TYPE_ACTION
+  - component: github.createDeploymentStatus
+    configuration:
+      deploymentId: '{{ $[''Read All Envs''].data.values[0].deployment_id }}'
+      description: Environment expired (TTL)
+      repository: storejs
+      state: inactive
+    id: ttl-deploy-status-inactive
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: 'Status: Inactive (TTL)'
+    position:
+      x: 2680
+      y: 3020
+    type: TYPE_ACTION
+  - component: github.createIssueComment
+    configuration:
+      body: ℹ️ No active preview environment found for this PR.
+      issueNumber: '{{ root().data.issue.number }}'
+      repository: storejs
+    id: no-env-destroy
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: No Env Found
+    position:
+      x: 2040
+      y: 2100
+    type: TYPE_ACTION
+  - component: github.createIssueComment
+    configuration:
+      body: '⚠️ **Preview already running!**
+
+
+        🔗 {{ $[''Check Exists''].data.values[0].url }}
+
+
+        Use `/destroy` first, then `/start` again.'
+      issueNumber: '{{ root().data.issue.number }}'
+      repository: storejs
+    id: already-exists
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: Already Running
+    position:
+      x: 2040
+      y: 1100
     type: TYPE_ACTION
   - component: github.addReaction
     configuration:
@@ -168,7 +215,6 @@ spec:
     id: ack-deploy
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -177,73 +223,6 @@ spec:
     name: Ack Deploy
     position:
       x: 760
-      y: 920
-    type: TYPE_ACTION
-  - component: digitalocean.deleteDroplet
-    configuration:
-      droplet: '{{ int(float(previous().data.values[0].droplet_id)) }}'
-    id: delete-droplet-cmd
-    integration:
-      id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
-    isCollapsed: false
-    metadata:
-      dropletId: 0
-      dropletName: '{{ int(float(previous().data.values[0].droplet_id)) }}'
-    name: Delete Droplet
-    position:
-      x: 2040
-      y: 1740
-    type: TYPE_ACTION
-  - component: readMemory
-    configuration:
-      matchList:
-      - name: pr_number
-        value: '{{ root().data.issue.number }}'
-      namespace: preview-envs
-      resultMode: latest
-    id: check-exists
-    isCollapsed: false
-    name: Check Exists
-    position:
-      x: 1400
-      y: 920
-    type: TYPE_ACTION
-  - component: readMemory
-    configuration:
-      matchList:
-      - name: pr_number
-        value: '{{ root().data.issue.number }}'
-      namespace: preview-envs
-      resultMode: latest
-    id: read-env-destroy
-    isCollapsed: false
-    name: Read Env
-    position:
-      x: 1400
-      y: 1920
-    type: TYPE_ACTION
-  - component: ssh
-    configuration:
-      authentication:
-        authMethod: ssh_key
-        privateKey:
-          key: private_key
-          secret: STOREJS_SSH_DO
-      commands: curl -fsSL https://raw.githubusercontent.com/puppies-inc/storejs/main/scripts/preview-setup.sh -o /tmp/setup.sh
-        && chmod +x /tmp/setup.sh && PR_NUMBER={{ root().data.issue.number }} bash /tmp/setup.sh
-      connectionRetry:
-        enabled: true
-        intervalSeconds: 15
-        retries: 10
-      host: '{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}'
-      port: 22
-      timeout: 300
-      username: root
-    id: setup-app
-    isCollapsed: false
-    name: Setup App
-    position:
-      x: 3960
       y: 920
     type: TYPE_ACTION
   - component: github.createIssueComment
@@ -270,13 +249,13 @@ spec:
 
         ---
 
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
       issueNumber: '{{ root().data.issue.number }}'
       repository: storejs
     id: comment-ready
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -285,161 +264,6 @@ spec:
     name: Post Preview URL
     position:
       x: 6520
-      y: 920
-    type: TYPE_ACTION
-  - component: deleteMemory
-    configuration:
-      matchList:
-      - name: pr_number
-        value: '{{ $[''Read All Envs''].data.values[0].pr_number }}'
-      namespace: preview-envs
-    id: ttl-cleanup
-    isCollapsed: false
-    name: TTL Cleanup
-    position:
-      x: 3320
-      y: 3020
-    type: TYPE_ACTION
-  - component: github.createDeploymentStatus
-    configuration:
-      deploymentId: '{{ $[''Read All Envs''].data.values[0].deployment_id }}'
-      description: Environment expired (TTL)
-      repository: storejs
-      state: inactive
-    id: ttl-deploy-status-inactive
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: 'Status: Inactive (TTL)'
-    position:
-      x: 2680
-      y: 3020
-    type: TYPE_ACTION
-  - component: github.createIssueComment
-    configuration:
-      body: '## 🧹 Preview Environment Destroyed
-
-
-        The preview environment was automatically cleaned up when the PR was closed.
-
-
-        ---
-
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
-      issueNumber: '{{ root().data.pull_request.number }}'
-      repository: storejs
-    id: comment-destroyed-close
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: Destroyed Comment (Close)
-    position:
-      x: 3320
-      y: 2560
-    type: TYPE_ACTION
-  - component: github.createIssueComment
-    configuration:
-      body: '## ⚠️ Preview Environment Ready (with warnings)
-
-
-        🔗 **http://{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}.sslip.io**
-
-
-        Health check failed but the environment was created. The app may still be starting up — try the link in a minute.
-
-
-        | | |
-
-        |---|---|
-
-        | **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |
-
-        | **IP** | `{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}` |
-
-
-        To destroy: `/destroy` · Auto-expires in 24h.
-
-
-        ---
-
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
-      issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
-    id: health-failed-comment
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: Health Check Warning
-    position:
-      x: 5880
-      y: 920
-    type: TYPE_ACTION
-  - component: github.createDeploymentStatus
-    configuration:
-      deploymentId: '{{ $[''Read Env''].data.values[0].deployment_id }}'
-      description: Environment destroyed
-      repository: storejs
-      state: inactive
-    id: deploy-status-inactive-cmd
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: 'Status: Inactive'
-    position:
-      x: 3320
-      y: 1920
-    type: TYPE_ACTION
-  - component: deleteMemory
-    configuration:
-      matchList:
-      - name: pr_number
-        value: '{{ root().data.pull_request.number }}'
-      namespace: preview-envs
-    id: cleanup-close
-    isCollapsed: false
-    name: Cleanup Memory (Close)
-    position:
-      x: 2040
-      y: 2560
-    type: TYPE_ACTION
-  - component: github.createDeploymentStatus
-    configuration:
-      deploymentId: '{{ $[''Create Deployment''].data.id }}'
-      description: Creating droplet and setting up app...
-      repository: storejs
-      state: in_progress
-    id: deploy-status-progress
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: 'Status: In Progress'
-    position:
-      x: 2680
       y: 920
     type: TYPE_ACTION
   - component: github.addReaction
@@ -451,7 +275,6 @@ spec:
     id: ack-destroy
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -462,109 +285,15 @@ spec:
       x: 760
       y: 1740
     type: TYPE_ACTION
-  - component: github.createDeploymentStatus
-    configuration:
-      deploymentId: '{{ $[''Create Deployment''].data.id }}'
-      description: Setup failed
-      repository: storejs
-      state: failure
-    id: deploy-status-failure
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: 'Status: Failure'
-    position:
-      x: 4600
-      y: 1100
-    type: TYPE_ACTION
-  - component: schedule
-    configuration:
-      hoursInterval: 1
-      timezone: '0'
-      type: hours
-    id: ttl-schedule
-    isCollapsed: false
-    metadata:
-      nextTrigger: '2026-05-24T18:00:00Z'
-      referenceTime: null
-    name: TTL Check
-    position:
-      x: 120
-      y: 3020
-    type: TYPE_TRIGGER
   - component: if
     configuration:
       expression: '{{ int(now().Unix()) - int(previous().data.values[0].created_at) > 86400 }}'
     id: check-ttl
-    isCollapsed: false
     name: Older than 24h?
     position:
       x: 1400
       y: 3020
     type: TYPE_ACTION
-  - component: github.createIssueComment
-    configuration:
-      body: ℹ️ No active preview environment found for this PR.
-      issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
-    id: no-env-destroy
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: No Env Found
-    position:
-      x: 2040
-      y: 2100
-    type: TYPE_ACTION
-  - component: github.createDeploymentStatus
-    configuration:
-      deploymentId: '{{ $[''Create Deployment''].data.id }}'
-      description: Preview environment ready
-      environmentUrl: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
-      repository: storejs
-      state: success
-    id: deploy-status-success
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: 'Status: Success'
-    position:
-      x: 5880
-      y: 560
-    type: TYPE_ACTION
-  - component: github.onPRComment
-    configuration:
-      contentFilter: ^/destroy
-      repository: storejs
-    id: destroy-cmd
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: /destroy
-    position:
-      x: 120
-      y: 1920
-    type: TYPE_TRIGGER
   - component: upsertMemory
     configuration:
       matchList:
@@ -593,12 +322,70 @@ spec:
       - name: pr_url
         value: '{{ root().data.issue.html_url }}'
     id: save-env
-    isCollapsed: false
     name: Save Environment
     position:
       x: 4600
       y: 740
     type: TYPE_ACTION
+  - component: start
+    configuration:
+      templates:
+      - name: destroy
+        parameters:
+        - name: issue_number
+          type: string
+        payload:
+          issue:
+            number: '{{ parameters["issue_number"] }}'
+    id: console-destroy
+    name: 'Console: Destroy'
+    position:
+      x: 760
+      y: 2100
+    type: TYPE_TRIGGER
+  - component: deleteMemory
+    configuration:
+      matchList:
+      - name: pr_number
+        value: '{{ root().data.issue.number }}'
+      namespace: preview-envs
+    id: cleanup-cmd
+    name: Cleanup Memory
+    position:
+      x: 2680
+      y: 1920
+    type: TYPE_ACTION
+  - component: readMemory
+    configuration:
+      emitMode: oneByOne
+      matchList:
+      - name: repo
+        value: storejs
+      namespace: preview-envs
+      resultMode: all
+    id: read-all-envs
+    name: Read All Envs
+    position:
+      x: 760
+      y: 3020
+    type: TYPE_ACTION
+  - component: github.onPRComment
+    configuration:
+      contentFilter: ^/destroy
+      repository: storejs
+    id: destroy-cmd
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: /destroy
+    position:
+      x: 120
+      y: 1920
+    type: TYPE_TRIGGER
   - component: digitalocean.createDroplet
     configuration:
       image: ubuntu-24-04-x64
@@ -613,10 +400,261 @@ spec:
     id: create-droplet
     integration:
       id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
-    isCollapsed: false
     name: Create Droplet
     position:
       x: 3320
+      y: 920
+    type: TYPE_ACTION
+  - component: readMemory
+    configuration:
+      matchList:
+      - name: pr_number
+        value: '{{ root().data.pull_request.number }}'
+      namespace: preview-envs
+      resultMode: latest
+    id: read-env-close
+    name: Read Env (Close)
+    position:
+      x: 760
+      y: 2560
+    type: TYPE_ACTION
+  - component: github.createDeployment
+    configuration:
+      description: 'Preview environment for PR #{{ root().data.issue.number }}'
+      environment: preview-pr-{{ root().data.issue.number }}
+      ref: refs/pull/{{ root().data.issue.number }}/head
+      repository: storejs
+      transientEnvironment: true
+    id: create-deployment
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: Create Deployment
+    position:
+      x: 2040
+      y: 740
+    type: TYPE_ACTION
+  - component: http
+    configuration:
+      method: GET
+      retry:
+        enabled: false
+      timeoutSeconds: 5
+      url: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
+    id: http-health-check
+    name: Health Check
+    position:
+      x: 5240
+      y: 740
+    type: TYPE_ACTION
+  - component: github.createIssueComment
+    configuration:
+      body: '## 🛩️ Preview Environments
+
+
+        Use these commands in PR comments:
+
+
+        | Command | Description |
+
+        |---|---|
+
+        | `/start` | Spin up a preview environment for this PR |
+
+        | `/destroy` | Tear down the preview environment |
+
+
+        Environments are **automatically destroyed** when the PR is closed or merged.
+
+        Unused environments expire after **24 hours**.
+
+
+        ---
+
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
+      issueNumber: '{{ root().data.pull_request.number }}'
+      repository: storejs
+    id: welcome-comment
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: Welcome Comment
+    position:
+      x: 760
+      y: 100
+    type: TYPE_ACTION
+  - component: ssh
+    configuration:
+      authentication:
+        authMethod: ssh_key
+        privateKey:
+          key: private_key
+          secret: STOREJS_SSH_DO
+      commandFile: scripts/preview-setup.sh
+      commandSource: file
+      connectionRetry:
+        enabled: true
+        intervalSeconds: 15
+        retries: 10
+      environment:
+      - name: PR_NUMBER
+        value: '{{ root().data.issue.number }}'
+      - name: REPO_URL
+        value: '{{ root().data.repository.clone_url }}'
+      host: '{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}'
+      port: 22
+      timeout: 300
+      username: root
+    id: setup-app
+    name: Setup App
+    position:
+      x: 3960
+      y: 920
+    type: TYPE_ACTION
+  - component: github.createDeploymentStatus
+    configuration:
+      deploymentId: '{{ $[''Read Env''].data.values[0].deployment_id }}'
+      description: Environment destroyed
+      repository: storejs
+      state: inactive
+    id: deploy-status-inactive-cmd
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: 'Status: Inactive'
+    position:
+      x: 3320
+      y: 1920
+    type: TYPE_ACTION
+  - component: deleteMemory
+    configuration:
+      matchList:
+      - name: pr_number
+        value: '{{ root().data.pull_request.number }}'
+      namespace: preview-envs
+    id: cleanup-close
+    name: Cleanup Memory (Close)
+    position:
+      x: 2040
+      y: 2560
+    type: TYPE_ACTION
+  - component: schedule
+    configuration:
+      hoursInterval: 1
+      timezone: '0'
+      type: hours
+    id: ttl-schedule
+    metadata:
+      nextTrigger: '2026-05-24T18:00:00Z'
+      referenceTime: null
+    name: TTL Check
+    position:
+      x: 120
+      y: 3020
+    type: TYPE_TRIGGER
+  - component: github.onPullRequest
+    configuration:
+      actions:
+      - opened
+      repository: storejs
+    id: pr-opened
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: PR Opened
+    position:
+      x: 120
+      y: 100
+    type: TYPE_TRIGGER
+  - component: github.createDeploymentStatus
+    configuration:
+      deploymentId: '{{ $[''Create Deployment''].data.id }}'
+      description: Creating droplet and setting up app...
+      repository: storejs
+      state: in_progress
+    id: deploy-status-progress
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: 'Status: In Progress'
+    position:
+      x: 2680
+      y: 920
+    type: TYPE_ACTION
+  - component: readMemory
+    configuration:
+      matchList:
+      - name: pr_number
+        value: '{{ root().data.issue.number }}'
+      namespace: preview-envs
+      resultMode: latest
+    id: read-env-destroy
+    name: Read Env
+    position:
+      x: 1400
+      y: 1920
+    type: TYPE_ACTION
+  - component: github.createIssueComment
+    configuration:
+      body: '## ⚠️ Preview Environment Ready (with warnings)
+
+
+        🔗 **http://{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}.sslip.io**
+
+
+        Health check failed but the environment was created. The app may still be starting up — try the link in a minute.
+
+
+        | | |
+
+        |---|---|
+
+        | **Droplet** | `storejs-pr-{{ root().data.issue.number }}` |
+
+        | **IP** | `{{ $[''Create Droplet''].data.networks.v4[0].ip_address }}` |
+
+
+        To destroy: `/destroy` · Auto-expires in 24h.
+
+
+        ---
+
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
+      issueNumber: '{{ root().data.issue.number }}'
+      repository: storejs
+    id: health-failed-comment
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: Health Check Warning
+    position:
+      x: 5880
       y: 920
     type: TYPE_ACTION
   - component: github.createDeploymentStatus
@@ -628,7 +666,6 @@ spec:
     id: deploy-status-inactive-close
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -639,80 +676,80 @@ spec:
       x: 2680
       y: 2560
     type: TYPE_ACTION
-  - component: readMemory
+  - component: digitalocean.deleteDroplet
     configuration:
-      matchList:
-      - name: pr_number
-        value: '{{ root().data.pull_request.number }}'
-      namespace: preview-envs
-      resultMode: latest
-    id: read-env-close
-    isCollapsed: false
-    name: Read Env (Close)
+      droplet: '{{ int(float($[''Create Droplet''].data.id)) }}'
+    id: cleanup-failed-droplet
+    integration:
+      id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
+    metadata:
+      dropletId: 0
+      dropletName: '{{ int(float($[''Create Droplet''].data.id)) }}'
+    name: Cleanup Failed Droplet
     position:
-      x: 760
-      y: 2560
+      x: 5880
+      y: 1280
     type: TYPE_ACTION
-  - component: start
+  - component: digitalocean.deleteDroplet
     configuration:
-      templates:
-      - name: destroy
-        parameters:
-        - name: issue_number
-          type: string
-        payload:
-          issue:
-            number: '{{ parameters["issue_number"] }}'
-    id: console-destroy
-    isCollapsed: false
-    name: 'Console: Destroy'
-    position:
-      x: 760
-      y: 2100
-    type: TYPE_TRIGGER
-  - component: github.onPullRequest
-    configuration:
-      actions:
-      - closed
-      repository: storejs
-    id: pr-closed
+      droplet: '{{ int(float($[''Read All Envs''].data.values[0].droplet_id)) }}'
+    id: ttl-delete-droplet
     integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
+      id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
     metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: PR Closed
-    position:
-      x: 120
-      y: 2560
-    type: TYPE_TRIGGER
-  - component: github.createIssueComment
-    configuration:
-      body: '⚠️ **Preview already running!**
-
-
-        🔗 {{ $[''Check Exists''].data.values[0].url }}
-
-
-        Use `/destroy` first, then `/start` again.'
-      issueNumber: '{{ root().data.issue.number }}'
-      repository: storejs
-    id: already-exists
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: Already Running
+      dropletId: 0
+      dropletName: '{{ int(float($[''Read All Envs''].data.values[0].droplet_id)) }}'
+    name: TTL Delete
     position:
       x: 2040
-      y: 1100
+      y: 3020
+    type: TYPE_ACTION
+  - component: github.createIssueComment
+    configuration:
+      body: '## 🧹 Preview Environment Destroyed
+
+
+        The preview environment was automatically cleaned up when the PR was closed.
+
+
+        ---
+
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
+      issueNumber: '{{ root().data.pull_request.number }}'
+      repository: storejs
+    id: comment-destroyed-close
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: Destroyed Comment (Close)
+    position:
+      x: 3320
+      y: 2560
+    type: TYPE_ACTION
+  - component: github.createDeploymentStatus
+    configuration:
+      deploymentId: '{{ $[''Create Deployment''].data.id }}'
+      description: Preview environment ready
+      environmentUrl: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
+      repository: storejs
+      state: success
+    id: deploy-status-success
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: 'Status: Success'
+    position:
+      x: 5880
+      y: 560
     type: TYPE_ACTION
   - component: github.createIssueComment
     configuration:
@@ -742,13 +779,13 @@ spec:
 
         ---
 
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
       issueNumber: '{{ root().data.issue.number }}'
       repository: storejs
     id: setup-failed-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -758,55 +795,6 @@ spec:
     position:
       x: 5240
       y: 1100
-    type: TYPE_ACTION
-  - component: deleteMemory
-    configuration:
-      matchList:
-      - name: pr_number
-        value: '{{ root().data.issue.number }}'
-      namespace: preview-envs
-    id: cleanup-cmd
-    isCollapsed: false
-    name: Cleanup Memory
-    position:
-      x: 2680
-      y: 1920
-    type: TYPE_ACTION
-  - component: readMemory
-    configuration:
-      emitMode: oneByOne
-      matchList:
-      - name: repo
-        value: storejs
-      namespace: preview-envs
-      resultMode: all
-    id: read-all-envs
-    isCollapsed: false
-    name: Read All Envs
-    position:
-      x: 760
-      y: 3020
-    type: TYPE_ACTION
-  - component: github.createDeployment
-    configuration:
-      description: 'Preview environment for PR #{{ root().data.issue.number }}'
-      environment: preview-pr-{{ root().data.issue.number }}
-      ref: refs/pull/{{ root().data.issue.number }}/head
-      repository: storejs
-      transientEnvironment: true
-    id: create-deployment
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: Create Deployment
-    position:
-      x: 2040
-      y: 740
     type: TYPE_ACTION
   - component: github.createIssueComment
     configuration:
@@ -830,13 +818,13 @@ spec:
 
         ---
 
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
       issueNumber: '{{ $[''Read All Envs''].data.values[0].pr_number }}'
       repository: storejs
     id: ttl-expired-comment
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -847,35 +835,95 @@ spec:
       x: 3960
       y: 3020
     type: TYPE_ACTION
-  - component: http
+  - component: github.createIssueComment
     configuration:
-      method: GET
-      retry:
-        enabled: false
-      timeoutSeconds: 5
-      url: http://{{ $['Create Droplet'].data.networks.v4[0].ip_address }}.sslip.io
-    id: http-health-check
-    isCollapsed: false
-    name: Health Check
-    position:
-      x: 5240
-      y: 740
-    type: TYPE_ACTION
-  - component: digitalocean.deleteDroplet
-    configuration:
-      droplet: '{{ int(float($[''Create Droplet''].data.id)) }}'
-    id: cleanup-failed-droplet
+      body: '## 🧹 Preview Environment Destroyed
+
+
+        The preview environment has been cleaned up.
+
+
+        ---
+
+        *Powered by [SuperPlane](https://app.superplane.com/3ee1aa47-3a60-4c1f-b645-0b9859ab91f8/canvases/c6a13eb9-7f6c-42c2-b177-b5dfe0b0aeb0)
+        🛩️*'
+      issueNumber: '{{ root().data.issue.number }}'
+      repository: storejs
+    id: comment-destroyed-cmd
     integration:
-      id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
-    isCollapsed: false
+      id: 51a76317-1481-467b-b761-3bb11af1851e
     metadata:
-      dropletId: 0
-      dropletName: '{{ int(float($[''Create Droplet''].data.id)) }}'
-    name: Cleanup Failed Droplet
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: Destroyed Comment
     position:
-      x: 5880
-      y: 1280
+      x: 3960
+      y: 1920
     type: TYPE_ACTION
+  - component: readMemory
+    configuration:
+      matchList:
+      - name: pr_number
+        value: '{{ root().data.issue.number }}'
+      namespace: preview-envs
+      resultMode: latest
+    id: check-exists
+    name: Check Exists
+    position:
+      x: 1400
+      y: 920
+    type: TYPE_ACTION
+  - component: deleteMemory
+    configuration:
+      matchList:
+      - name: pr_number
+        value: '{{ $[''Read All Envs''].data.values[0].pr_number }}'
+      namespace: preview-envs
+    id: ttl-cleanup
+    name: TTL Cleanup
+    position:
+      x: 3320
+      y: 3020
+    type: TYPE_ACTION
+  - component: github.createDeploymentStatus
+    configuration:
+      deploymentId: '{{ $[''Create Deployment''].data.id }}'
+      description: Setup failed
+      repository: storejs
+      state: failure
+    id: deploy-status-failure
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: 'Status: Failure'
+    position:
+      x: 4600
+      y: 1100
+    type: TYPE_ACTION
+  - component: github.onPullRequest
+    configuration:
+      actions:
+      - closed
+      repository: storejs
+    id: pr-closed
+    integration:
+      id: 51a76317-1481-467b-b761-3bb11af1851e
+    metadata:
+      repository:
+        id: 1165844309
+        name: storejs
+        url: https://github.com/puppies-inc/storejs
+    name: PR Closed
+    position:
+      x: 120
+      y: 2560
+    type: TYPE_TRIGGER
   - component: github.onPRComment
     configuration:
       contentFilter: ^/start
@@ -883,7 +931,6 @@ spec:
     id: deploy-cmd
     integration:
       id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
     metadata:
       repository:
         id: 1165844309
@@ -894,78 +941,3 @@ spec:
       x: 120
       y: 920
     type: TYPE_TRIGGER
-  - component: github.onPullRequest
-    configuration:
-      actions:
-      - opened
-      repository: storejs
-    id: pr-opened
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: PR Opened
-    position:
-      x: 120
-      y: 100
-    type: TYPE_TRIGGER
-  - component: github.createIssueComment
-    configuration:
-      body: '## 🛩️ Preview Environments
-
-
-        Use these commands in PR comments:
-
-
-        | Command | Description |
-
-        |---|---|
-
-        | `/start` | Spin up a preview environment for this PR |
-
-        | `/destroy` | Tear down the preview environment |
-
-
-        Environments are **automatically destroyed** when the PR is closed or merged.
-
-        Unused environments expire after **24 hours**.
-
-
-        ---
-
-        *Powered by [SuperPlane](https://app.superplane.com/) 🛩️*'
-      issueNumber: '{{ root().data.pull_request.number }}'
-      repository: storejs
-    id: welcome-comment
-    integration:
-      id: 51a76317-1481-467b-b761-3bb11af1851e
-    isCollapsed: false
-    metadata:
-      repository:
-        id: 1165844309
-        name: storejs
-        url: https://github.com/puppies-inc/storejs
-    name: Welcome Comment
-    position:
-      x: 760
-      y: 100
-    type: TYPE_ACTION
-  - component: digitalocean.deleteDroplet
-    configuration:
-      droplet: '{{ int(float($[''Read All Envs''].data.values[0].droplet_id)) }}'
-    id: ttl-delete-droplet
-    integration:
-      id: 505ed7fc-cc70-4226-8ff6-50e3ef601b8d
-    isCollapsed: false
-    metadata:
-      dropletId: 0
-      dropletName: '{{ int(float($[''Read All Envs''].data.values[0].droplet_id)) }}'
-    name: TTL Delete
-    position:
-      x: 2040
-      y: 3020
-    type: TYPE_ACTION
