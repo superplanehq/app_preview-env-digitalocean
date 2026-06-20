@@ -18,6 +18,15 @@
       "required": true
     },
     {
+      "name": "ssh_key",
+      "label": "DigitalOcean SSH Key",
+      "type": "integration-resource",
+      "integration": "digitalocean",
+      "resourceType": "ssh_key",
+      "description": "SSH key to inject into new droplets. Must match the private key in your SSH secret.",
+      "required": true
+    },
+    {
       "name": "region",
       "label": "Droplet Region",
       "type": "integration-resource",
