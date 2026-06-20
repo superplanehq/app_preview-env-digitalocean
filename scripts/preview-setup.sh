@@ -22,7 +22,7 @@ apt-get install -y nodejs nginx
 echo "=== Cloning repo ==="
 cd /opt
 for i in 1 2 3 4 5; do
-  git clone https://github.com/puppies-inc/storejs.git app && break
+  git clone https://github.com/{{ install_params.repo_clone_url }}.git app && break
   echo "Retry $i: git clone failed"
   rm -rf app
   sleep 10
